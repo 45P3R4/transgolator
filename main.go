@@ -23,7 +23,6 @@ func getFromDb(word string, languageFrom string, languageTo string) []string {
 	var fromId string
 	err := db.QueryRow("SELECT id FROM "+languageFrom+" WHERE word = ?", word).Scan(&fromId)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
 		return nil
 	}
 
@@ -59,10 +58,11 @@ func main() {
 	word := os.Args[1]
 	transaltions := getFromDb(word, "en", "ru")
 
-	fmt.Println(word)
-	fmt.Println("-------------------")
-	for _, translation := range transaltions {
-		fmt.Println(translation)
+	if len(transaltions) > 0 {
+		fmt.Println(word)
+		fmt.Println("-------------------")
+		for _, translation := range transaltions {
+			fmt.Fprintln(os.Stdout, translation)
+		}
 	}
-
 }
