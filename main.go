@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func connectDb() *sql.DB {
-	db, err := sql.Open("sqlite3", "./db/Dictionaries.db")
+	file, _ := os.Executable()
+	db, err := sql.Open("sqlite3", filepath.Dir(file)+"/db/Dictionaries.db")
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
